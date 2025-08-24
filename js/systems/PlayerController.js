@@ -10,7 +10,7 @@ export class PlayerController {
         this.player.body.setDrag(1000, 1000);
         this.player.body.setMaxVelocity(300, 300);
 
-        // ✅ 스탯 인스턴스
+        // 스탯 인스턴스
         this.stats = new PlayerStats(scene);
 
         // 입력
@@ -97,7 +97,7 @@ export class PlayerController {
             this.player.flipX = (px < this.player.x);
         }
 
-        // ✅ 공격 중에만 재생 배수 적용 (예: 1.0 ~ 2.0)
+        //공격 중에만 재생 배수 적용 (예: 1.0 ~ 2.0)
         const attackSpeed =
             (this.stats?.getValue?.('attackSpeed')) ?? 1.0; // Stats 사용 안하면 1.0
         this.player.anims.timeScale = attackSpeed;
@@ -118,7 +118,7 @@ export class PlayerController {
                     return;
                 }
 
-                // ✅ 콤보 종료 시 반드시 원래 속도로 복구
+                //콤보 종료 시 반드시 원래 속도로 복구
                 this.player.anims.timeScale = 1.0;
 
                 this.isAttacking = false;
@@ -138,7 +138,7 @@ export class PlayerController {
         const p = this.player;
         const c = this.cursors;
         const k = this.keys;
-        const speed = this.stats.getValue('moveSpeed'); // ✅ 이동속도도 스탯 반영
+        const speed = this.stats.getValue('moveSpeed'); //이동속도도 스탯 반영
 
         const left = c.left.isDown || k.left.isDown;
         const right = c.right.isDown || k.right.isDown;

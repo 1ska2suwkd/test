@@ -14,7 +14,7 @@ export default class PreloadScene extends Phaser.Scene {
         // this.load.image('gameClear', 'assets/gameClear.png');
         // this.load.image('timeOver', 'assets/timeOver.png');
 
-        this.load.image('customCursor', 'assets/UI/Pointers/cursor.png'); 
+        this.load.image('customCursor', 'assets/UI/Pointers/cursor.png');
 
         this.load.spritesheet('warrior', 'assets/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png', {
             frameWidth: 192,
