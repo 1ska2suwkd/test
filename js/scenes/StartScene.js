@@ -1,4 +1,5 @@
 import { PlayerController } from "../systems/PlayerController.js";
+import { CustomCursor } from "../systems/CustomCursor.js";
 
 export default class StartScene extends Phaser.Scene {
     constructor() {
@@ -6,11 +7,14 @@ export default class StartScene extends Phaser.Scene {
     }
 
     create() {
+        //커서
+        this.cursor = new CustomCursor(this, 'customCursor');
         // 플레이어
         this.controller = new PlayerController(this, 333, 433);
     }
 
     update() {
+        if (this.cursor) this.cursor.update();
         this.controller.update();
     }
 }
