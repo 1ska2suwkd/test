@@ -49,12 +49,11 @@ export class PlayerController {
             }
         });
 
-        const box = this.scene.add.rectangle(this.player.x, this.player.y, 80, 30, 0xff0000, 0.25); // 디버그용 반투명
-        this.scene.physics.add.existing(box);
-        this.attackHitbox = box;
+        this.attackHitbox = this.scene.add.rectangle(this.player.x, this.player.y, 80, 30, 0xff0000, 0.3);
+        this.scene.physics.add.existing(this.attackHitbox);
         this.attackHitbox.body.allowGravity = false;
-        this.attackHitbox.body.setEnable(false);   // 기본은 비활성
-        this.attackHitbox.setVisible(false);       // 디버그 끝나면 false 유지
+        this.attackHitbox.body.setEnable(false); // 기본 비활성
+        this.attackHitbox.setVisible(false);     // 디버그 때만 true
     }
 
     update() {
@@ -88,6 +87,11 @@ export class PlayerController {
             if (vx < 0) p.flipX = true; else if (vx > 0) p.flipX = false;
             if (vx !== 0 || vy !== 0) p.play('walk', true);
             else p.play('idle', true);
+        }
+        if (this.attackHitbox.body.enable) {
+            // 공격 중일 때만 플레이어를 따라감
+            this.attackHitbox.x = this.player.x + this.attackHitboxOffsetX;
+            this.attackHitbox.y = this.player.y + this.attackHitboxOffsetY;
         }
     }
     createAnimations() {
@@ -136,38 +140,42 @@ export class PlayerController {
             this.player.flipX = (px < this.player.x);
         }
 
-        //공격 중에만 재생 배수 적용 (예: 1.0 ~ 2.0)
-        const attackSpeed =
-            (this.stats?.getValue?.('attackSpeed')) ?? 1.0; // Stats 사용 안하면 1.0
+        const attackSpeed = (this.stats?.getValue?.('attackSpeed')) ?? 1.0;
         this.player.anims.timeScale = attackSpeed;
         this.player.play(key, true);
 
-        // 네모 히트박스 잠깐 활성화 (예: 120ms)
-        this.setSimpleHitbox(dir);
+        // 방향별 히트박스 계산
+        let offX = 65, offY = -50, w = 60, h = 110;
+        if (dir === 'up') { offX = 0; offY = -50; w = 40; h = 80; }
+        if (dir === 'down') { offX = 0; offY = 50; w = 40; h = 80; }
+        if (dir === 'hor' && this.player.flipX) offX = -50;
+
+        this.attackHitbox.body.setSize(w, h);
+        this.attackHitbox.setSize(w, h);
+        this.attackHitbox.setPosition(this.player.x + offX, this.player.y + offY);
+
+        // 오프셋 저장해서 update()에서 따라가게
+        this.attackHitboxOffsetX = offX;
+        this.attackHitboxOffsetY = offY;
+
         this.attackHitbox.body.setEnable(true);
         this.attackHitbox.setVisible(true);
 
-        // window 지난 뒤 비활성화
-        this.player.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + key, () => {
-            this.attackHitbox.body.setEnable(false);
-            this.attackHitbox.setVisible(false);
-        });
-
+        // 애니메이션 끝났을 때
         this.player.once(
             Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + key,
             () => {
-                // 다음 콤보 키 갱신
-                this.toggleNextFor(dir, key);
+                this.attackHitbox.body.setEnable(false);
+                this.attackHitbox.setVisible(false);
 
+                this.toggleNextFor(dir, key);
                 if (this.pointerHeld) {
-                    // 눌림 유지 시: 다음 공격으로 즉시 이어감
                     const nextDir = this.getPointerDir();
                     const nextKey = this.nextAttackByDir[nextDir];
                     this.startAttack(nextKey, nextDir);
                     return;
                 }
 
-                //콤보 종료 시 반드시 원래 속도로 복구
                 this.player.anims.timeScale = 1.0;
                 this.isAttacking = false;
                 const moving = this.player.body?.velocity?.length() > 0;
@@ -176,18 +184,4 @@ export class PlayerController {
         );
     }
 
-    setSimpleHitbox(dir) {
-        // 방향별 크기/오프셋(취향껏 조절)
-        let w = 80, h = 30, offX = 60, offY = 10;
-        if (dir === 'up') { w = 40; h = 80; offX = 0; offY = -60; }
-        if (dir === 'down') { w = 40; h = 80; offX = 0; offY = 60; }
-
-        // 좌우일 때 flipX 고려해서 앞쪽에 배치
-        if (dir === 'hor' && this.player.flipX) offX = -offX;
-
-        this.attackHitbox.width = w;
-        this.attackHitbox.height = h;
-        this.attackHitbox.body.setSize(w, h);
-        this.attackHitbox.setPosition(this.player.x + offX, this.player.y + offY);
-    }
 }
