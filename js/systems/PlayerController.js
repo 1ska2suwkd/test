@@ -92,7 +92,7 @@ export class PlayerController {
     /// 공격 시작
     startAttack(key, dir) {
         this.isAttacking = true;
-        this.player.setVelocity(0, 0);
+        // this.player.setVelocity(0, 0);
 
         if (dir === 'hor') {
             const { x: px } = this.getPointerWorld();
@@ -124,9 +124,8 @@ export class PlayerController {
                 this.player.anims.timeScale = 1.0;
 
                 this.isAttacking = false;
-                if (this.player.body.velocity.length() === 0) {
-                    this.player.play('idle', true);
-                }
+                const moving = this.player.body?.velocity?.length() > 0;
+                this.player.play(moving ? 'walk' : 'idle', true);
             }
         );
     }
@@ -135,12 +134,15 @@ export class PlayerController {
     // ----- 이동 -----
     update() {
         if (this.isDead) return;
-        if (this.isAttacking) return;
+        // if (this.isAttacking) return;
 
         const p = this.player;
         const c = this.cursors;
         const k = this.keys;
-        const speed = this.stats.getValue('moveSpeed'); //이동속도도 스탯 반영
+
+        // (선택) 공격 중 이동속도 페널티
+        const baseSpeed = this.stats.getValue('moveSpeed');
+        const speed = this.isAttacking ? baseSpeed * 0.7 : baseSpeed;
 
         const left = c.left.isDown || k.left.isDown;
         const right = c.right.isDown || k.right.isDown;
@@ -157,6 +159,11 @@ export class PlayerController {
 
         p.setVelocity(vx, vy);
         if (vx < 0) p.flipX = true; else if (vx > 0) p.flipX = false;
-        if (vx !== 0 || vy !== 0) p.play('walk', true); else p.play('idle', true);
+        // if (vx !== 0 || vy !== 0) p.play('walk', true); else p.play('idle', true);
+
+        if (!this.isAttacking) {
+            if (vx !== 0 || vy !== 0) p.play('walk', true);
+            else p.play('idle', true);
+        }
     }
 }
