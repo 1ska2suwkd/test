@@ -48,9 +48,48 @@ export class PlayerController {
                 this.resetNextAttacks();
             }
         });
+
+        const box = this.scene.add.rectangle(this.player.x, this.player.y, 80, 30, 0xff0000, 0.25); // 디버그용 반투명
+        this.scene.physics.add.existing(box);
+        this.attackHitbox = box;
+        this.attackHitbox.body.allowGravity = false;
+        this.attackHitbox.body.setEnable(false);   // 기본은 비활성
+        this.attackHitbox.setVisible(false);       // 디버그 끝나면 false 유지
     }
 
-    // ----- 기존 애니메이션 정의(생략 가능) -----
+    update() {
+        if (this.isDead) return;
+        // if (this.isAttacking) return;
+
+        const p = this.player;
+        const c = this.cursors;
+        const k = this.keys;
+
+        // (선택) 공격 중 이동속도 페널티
+        const baseSpeed = this.stats.getValue('moveSpeed');
+        const speed = this.isAttacking ? baseSpeed * 0.7 : baseSpeed;
+
+        const left = c.left.isDown || k.left.isDown;
+        const right = c.right.isDown || k.right.isDown;
+        const up = c.up.isDown || k.up.isDown;
+        const down = c.down.isDown || k.down.isDown;
+
+        let vx = 0, vy = 0;
+        if (left) vx = -speed;
+        if (right) vx = speed;
+        if (up) vy = -speed;
+        if (down) vy = speed;
+
+        if (vx !== 0 && vy !== 0) { const d = Math.SQRT1_2; vx *= d; vy *= d; }
+
+        p.setVelocity(vx, vy);
+
+        if (!this.isAttacking) {
+            if (vx < 0) p.flipX = true; else if (vx > 0) p.flipX = false;
+            if (vx !== 0 || vy !== 0) p.play('walk', true);
+            else p.play('idle', true);
+        }
+    }
     createAnimations() {
         const anims = this.scene.anims;
         anims.create({ key: 'idle', frames: anims.generateFrameNumbers('warrior', { start: 0, end: 5 }), frameRate: 10, repeat: -1 });
@@ -89,10 +128,8 @@ export class PlayerController {
         else this.nextAttackByDir.down = (keyJustPlayed === 'DownAttack1') ? 'DownAttack2' : 'DownAttack1';
     }
 
-    /// 공격 시작
     startAttack(key, dir) {
         this.isAttacking = true;
-        // this.player.setVelocity(0, 0);
 
         if (dir === 'hor') {
             const { x: px } = this.getPointerWorld();
@@ -103,8 +140,18 @@ export class PlayerController {
         const attackSpeed =
             (this.stats?.getValue?.('attackSpeed')) ?? 1.0; // Stats 사용 안하면 1.0
         this.player.anims.timeScale = attackSpeed;
-
         this.player.play(key, true);
+
+        // 네모 히트박스 잠깐 활성화 (예: 120ms)
+        this.setSimpleHitbox(dir);
+        this.attackHitbox.body.setEnable(true);
+        this.attackHitbox.setVisible(true);
+
+        // window 지난 뒤 비활성화
+        this.player.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + key, () => {
+            this.attackHitbox.body.setEnable(false);
+            this.attackHitbox.setVisible(false);
+        });
 
         this.player.once(
             Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + key,
@@ -122,7 +169,6 @@ export class PlayerController {
 
                 //콤보 종료 시 반드시 원래 속도로 복구
                 this.player.anims.timeScale = 1.0;
-
                 this.isAttacking = false;
                 const moving = this.player.body?.velocity?.length() > 0;
                 this.player.play(moving ? 'walk' : 'idle', true);
@@ -130,40 +176,18 @@ export class PlayerController {
         );
     }
 
+    setSimpleHitbox(dir) {
+        // 방향별 크기/오프셋(취향껏 조절)
+        let w = 80, h = 30, offX = 60, offY = 10;
+        if (dir === 'up') { w = 40; h = 80; offX = 0; offY = -60; }
+        if (dir === 'down') { w = 40; h = 80; offX = 0; offY = 60; }
 
-    // ----- 이동 -----
-    update() {
-        if (this.isDead) return;
-        // if (this.isAttacking) return;
+        // 좌우일 때 flipX 고려해서 앞쪽에 배치
+        if (dir === 'hor' && this.player.flipX) offX = -offX;
 
-        const p = this.player;
-        const c = this.cursors;
-        const k = this.keys;
-
-        // (선택) 공격 중 이동속도 페널티
-        const baseSpeed = this.stats.getValue('moveSpeed');
-        const speed = this.isAttacking ? baseSpeed * 0.7 : baseSpeed;
-
-        const left = c.left.isDown || k.left.isDown;
-        const right = c.right.isDown || k.right.isDown;
-        const up = c.up.isDown || k.up.isDown;
-        const down = c.down.isDown || k.down.isDown;
-
-        let vx = 0, vy = 0;
-        if (left) vx = -speed;
-        if (right) vx = speed;
-        if (up) vy = -speed;
-        if (down) vy = speed;
-
-        if (vx !== 0 && vy !== 0) { const d = Math.SQRT1_2; vx *= d; vy *= d; }
-
-        p.setVelocity(vx, vy);
-        // if (vx !== 0 || vy !== 0) p.play('walk', true); else p.play('idle', true);
-
-        if (!this.isAttacking) {
-            if (vx < 0) p.flipX = true; else if (vx > 0) p.flipX = false;
-            if (vx !== 0 || vy !== 0) p.play('walk', true);
-            else p.play('idle', true);
-        }
+        this.attackHitbox.width = w;
+        this.attackHitbox.height = h;
+        this.attackHitbox.body.setSize(w, h);
+        this.attackHitbox.setPosition(this.player.x + offX, this.player.y + offY);
     }
 }
