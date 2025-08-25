@@ -5,6 +5,8 @@ export class PlayerController {
     constructor(scene, x, y) {
         this.scene = scene;
         this.player = scene.physics.add.sprite(x, y, 'warrior').setScale(1);
+        // 물리 hitbox 크기 줄이기 (가로 60, 세로 100)
+        this.player.body.setSize(50, 70);
 
         this.player.body.setAllowGravity(false);
         this.player.body.setDrag(1000, 1000);
