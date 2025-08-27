@@ -54,6 +54,7 @@ export class PlayerController {
         this.attackHitbox.body.allowGravity = false;
         this.attackHitbox.body.setEnable(false); // 기본 비활성
         this.attackHitbox.setVisible(false);     // 디버그 때만 true
+
     }
 
     update() {
@@ -144,24 +145,34 @@ export class PlayerController {
         this.player.anims.timeScale = attackSpeed;
         this.player.play(key, true);
 
-        // 방향별 히트박스 계산
-        let offX = 65, offY = -50, w = 60, h = 110;
-        if (dir === 'up') { offX = 0; offY = -50; w = 40; h = 80; }
-        if (dir === 'down') { offX = 0; offY = 50; w = 40; h = 80; }
-        if (dir === 'hor' && this.player.flipX) offX = -50;
+        // 일관된, 대칭형 오프셋
+        const reachX = 55;   // 좌우 거리(대칭)
+        const reachY = 45;   // 위/아래 거리
+        let offX = 0, offY = 0, w = 60, h = 110;
 
-        this.attackHitbox.body.setSize(w, h);
+        if (dir === 'hor') {
+            offX = this.player.flipX ? -reachX : reachX;
+            offY = -10;          // 옆 공격은 수직 오프셋 0
+            w = 60; h = 120;
+        } else if (dir === 'up') {
+            offX = 0; offY = -reachY;
+            w = 140; h = 60;
+        } else { // down
+            offX = 0; offY = reachY;
+            w = 140; h = 60;
+        }
+
+        this.attackHitbox.body.setSize(w, h, true); // center=true
         this.attackHitbox.setSize(w, h);
+        this.attackHitbox.body.setOffset(0, 0);     // 기준 통일
         this.attackHitbox.setPosition(this.player.x + offX, this.player.y + offY);
 
-        // 오프셋 저장해서 update()에서 따라가게
         this.attackHitboxOffsetX = offX;
         this.attackHitboxOffsetY = offY;
 
         this.attackHitbox.body.setEnable(true);
         this.attackHitbox.setVisible(true);
 
-        // 애니메이션 끝났을 때
         this.player.once(
             Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + key,
             () => {
@@ -175,7 +186,6 @@ export class PlayerController {
                     this.startAttack(nextKey, nextDir);
                     return;
                 }
-
                 this.player.anims.timeScale = 1.0;
                 this.isAttacking = false;
                 const moving = this.player.body?.velocity?.length() > 0;
@@ -183,5 +193,6 @@ export class PlayerController {
             }
         );
     }
+
 
 }
