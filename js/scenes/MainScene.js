@@ -1,4 +1,4 @@
-import { PlayerController } from "../systems/player/PlayerController.js";
+import { PlayerController } from "../systems/Player/PlayerController.js";
 import { CustomCursor } from "../systems/CustomCursor.js";
 
 export default class MainScene extends Phaser.Scene {

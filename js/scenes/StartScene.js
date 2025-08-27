@@ -1,4 +1,4 @@
-import { PlayerController } from "../systems/player/PlayerController.js";
+import { PlayerController } from "../systems/Player/PlayerController.js";
 import { CustomCursor } from "../systems/CustomCursor.js";
 
 export default class StartScene extends Phaser.Scene {
@@ -11,6 +11,7 @@ export default class StartScene extends Phaser.Scene {
         this.cursor = new CustomCursor(this, 'customCursor');
         // 플레이어
         this.controller = new PlayerController(this, 333, 433);
+        this.enemy = this.physics.add.sprite(640, 360, 'enemy')
     }
 
     update() {
