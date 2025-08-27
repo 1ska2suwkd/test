@@ -1,5 +1,5 @@
 // js/systems/player/PlayerController.js
-import { PlayerStats } from "./PlayerStats.js";
+import { Stats } from "../common/Stats.js";
 import { createAnimations } from "./PlayerAnimations.js";
 import { startAttack, resetNextAttacks, toggleNextFor } from "./PlayerAttack.js";
 import { setupPlayerInput } from "./PlayerInput.js";
@@ -7,14 +7,14 @@ import { setupPlayerInput } from "./PlayerInput.js";
 export class PlayerController {
     constructor(scene, x, y) {
         this.scene = scene;
-        this.player = scene.physics.add.sprite(x, y, 'warrior').setScale(1);
+        this.player = scene.physics.add.sprite(x, y, 'warrior');
         this.player.body.setSize(50, 70);
         this.player.body.setAllowGravity(false);
         this.player.body.setDrag(1000, 1000);
         this.player.body.setMaxVelocity(300, 300);
 
         // 스탯
-        this.stats = new PlayerStats(scene);
+        this.stats = new Stats(scene);
 
         // 입력
         setupPlayerInput(this, scene);
