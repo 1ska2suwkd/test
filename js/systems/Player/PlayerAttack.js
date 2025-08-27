@@ -27,7 +27,7 @@ export function startAttack(ctrl, key, dir) {
     const reachX = 55, reachY = 45;
     let offX=0, offY=0, w=60,h=110;
 
-    if (dir === 'hor') { offX = p.flipX ? -reachX : reachX; offY = -10; w=60;h=120; }
+    if (dir === 'hor') { offX = p.flipX ? -reachX : reachX; offY = -10; w=50;h=120; }
     else if (dir === 'up'){ offX=0; offY=-reachY; w=140; h=60; }
     else { offX=0; offY=reachY; w=140; h=60; }
 
@@ -39,7 +39,8 @@ export function startAttack(ctrl, key, dir) {
     ctrl.attackHitboxOffsetX=offX;
     ctrl.attackHitboxOffsetY=offY;
     ctrl.attackHitbox.body.setEnable(true);
-    ctrl.attackHitbox.setVisible(true);
+    // 공격 히트박스 온오프
+    ctrl.attackHitbox.setVisible(false);
 
     p.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY+key, ()=>{
         ctrl.attackHitbox.body.setEnable(false);

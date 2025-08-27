@@ -7,7 +7,7 @@ import { setupPlayerInput } from "./PlayerInput.js";
 export class PlayerController {
     constructor(scene, x, y) {
         this.scene = scene;
-        this.player = scene.physics.add.sprite(x, y, 'warrior');
+        this.player = scene.physics.add.sprite(x, y, 'warrior').setDepth(3);
         this.player.body.setSize(50, 70);
         this.player.body.setAllowGravity(false);
         this.player.body.setDrag(1000, 1000);
