@@ -58,14 +58,14 @@ export class PlayerController {
     update() {
         if (this.isDead) return;
 
-        const p = this.player, c = this.cursors, k = this.keys;
+        const p = this.player, k = this.keys;
         const baseSpeed = this.stats.getValue('moveSpeed');
         const speed = this.isAttacking ? baseSpeed * 0.7 : baseSpeed;
 
-        const left = c.left.isDown || k.left.isDown;
-        const right= c.right.isDown|| k.right.isDown;
-        const up   = c.up.isDown   || k.up.isDown;
-        const down = c.down.isDown || k.down.isDown;
+        const left = k.left.isDown;
+        const right= k.right.isDown;
+        const up   = k.up.isDown;
+        const down = k.down.isDown;
 
         let vx = 0, vy = 0;
         if (left) vx = -speed;

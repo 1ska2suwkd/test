@@ -1,6 +1,6 @@
 // js/systems/player/PlayerInput.js
 export function setupPlayerInput(ctrl, scene) {
-    ctrl.cursors = scene.input.keyboard.createCursorKeys();
+    // ctrl.cursors = scene.input.keyboard.createCursorKeys();
     ctrl.keys = scene.input.keyboard.addKeys({
         up: Phaser.Input.Keyboard.KeyCodes.W,
         left: Phaser.Input.Keyboard.KeyCodes.A,
