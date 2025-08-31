@@ -1,7 +1,7 @@
 // js/systems/player/PlayerController.js
 import { Stats } from "../common/Stats.js";
 import { createAnimations } from "./PlayerAnimations.js";
-import { startAttack, resetNextAttacks, toggleNextFor } from "./PlayerAttack.js";
+import { startAttack, resetNextAttacks } from "./PlayerAttack.js";
 import { setupPlayerInput } from "./PlayerInput.js";
 
 export class PlayerController {
