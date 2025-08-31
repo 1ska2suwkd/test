@@ -8,12 +8,13 @@ export default class StartScene extends Phaser.Scene {
     }
 
     create() {
-        //커서
+        // 커서
         this.cursor = new CustomCursor(this, 'customCursor');
         // 플레이어
         this.playerController = new PlayerController(this, 333, 433);
         this.enemyController = new EnemyController(this, 640, 360);
         this.enemyController.registerOverlap(this.playerController);
+
     }
 
     update() {

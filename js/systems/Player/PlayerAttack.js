@@ -33,6 +33,8 @@ export function startAttack(ctrl, key, dir) {
     const attackSpeed = (ctrl.stats?.getValue?.('attackSpeed')) ?? 1.0;
     p.anims.timeScale = attackSpeed;
     p.play(key, true);
+    
+
 
     // ─────────────────────────────────────────────
     // 히트박스 설정(초기엔 비활성; startUp 이후에만 켜짐)
