@@ -1,5 +1,3 @@
-// js/systems/player/PlayerAttack.js
-
 export function resetNextAttacks(ctrl) {
     ctrl.nextAttackByDir.hor = 'Attack1';
     ctrl.nextAttackByDir.up = 'UpAttack1';
@@ -33,8 +31,9 @@ export function startAttack(ctrl, key, dir) {
     const attackSpeed = (ctrl.stats?.getValue?.('attackSpeed')) ?? 1.0;
     p.anims.timeScale = attackSpeed;
     p.play(key, true);
-    
-
+    ctrl.scene.time.delayedCall(200, () => {
+        ctrl.scene.sounds.attack.play();
+    });
 
     // ─────────────────────────────────────────────
     // 히트박스 설정(초기엔 비활성; startUp 이후에만 켜짐)
