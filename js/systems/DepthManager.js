@@ -13,7 +13,7 @@ export class DepthManager {
 
     // 오브젝트를 등록하는 함수
     register(obj, offset = 0) {
-        if (!obj || typeof obj.sepDepth !== 'function') return;
+        if (!obj || typeof obj.setDepth !== 'function') return;
         obj.setOrigin?.(0.5, 1); // 발 위치 기준
         obj.depthOffset = offset;
         this.items.add(obj);

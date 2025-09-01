@@ -5,7 +5,7 @@ export class EnemyController {
 
     constructor(scene, x, y) {
         this.scene = scene;
-        this.enemy = scene.physics.add.sprite(x, y, 'enemy').setDepth(2);
+        this.enemy = scene.physics.add.sprite(x, y, 'enemy');
 
         // 크기/오프셋은 기존 값 유지
         this.enemy.body.setSize(50, 80);
