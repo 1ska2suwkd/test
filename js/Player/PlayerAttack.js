@@ -45,16 +45,16 @@ export function startAttack(ctrl, key, dir) {
     ctrl.attackHitbox.body.setEnable(false);
     ctrl.attackHitbox.setVisible(false); // 디버그 시 true로
 
-    const reachX = 55, reachY = 45;
+    const reachX = 55, reachY = -50;
     let offX = 0, offY = 0, w = 60, h = 110;
 
     if (dir === 'hor') {
         offX = p.flipX ? -reachX : reachX;
-        offY = -10; w = 50; h = 120;
+        offY = -100; w = 50; h = 120;
     } else if (dir === 'up') {
-        offX = 0; offY = -reachY; w = 140; h = 60;
+        offX = 0; offY = -130; w = 140; h = 60;
     } else {
-        offX = 0; offY = reachY; w = 140; h = 60;
+        offX = 0; offY = -50; w = 140; h = 60;
     }
 
     ctrl.attackHitbox.body.setSize(w, h, true);
