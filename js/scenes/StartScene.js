@@ -1,6 +1,6 @@
-import { PlayerController } from "../systems/Player/PlayerController.js";
+import { PlayerController } from "../Player/PlayerController.js";
 import { CustomCursor } from "../systems/CustomCursor.js";
-import { EnemyController } from "../systems/Enemy/EnemyController.js";
+import { EnemyController } from "../Enemy/EnemyController.js";
 
 export default class StartScene extends Phaser.Scene {
     constructor() {
