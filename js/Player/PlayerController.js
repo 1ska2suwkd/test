@@ -60,6 +60,7 @@ export class PlayerController {
         this.stepAccumDist = 0;   // 누적 이동 거리
 
     }
+    getRenderable() { return this.player; }
 
     update() {
         if (this.isDead) return;

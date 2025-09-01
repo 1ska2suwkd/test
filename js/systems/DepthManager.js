@@ -8,7 +8,7 @@ export class DepthManager {
         }
 
         // 씬 파괴 시 정리
-        scene.events.once(Phaser.Scene.Events.SHUTDOWN, () => this.destroy());
+        scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.destroy());
     }
 
     // 오브젝트를 등록하는 함수

@@ -16,6 +16,7 @@ export class EnemyController {
         // 반짝 중복 방지용
         this._isFlashing = false;
     }
+    getRenderable() { return this.enemy; }
 
     /** 플레이어 히트박스와 겹치면 '히트 확인'만 처리 */
     registerOverlap(playerController) {
