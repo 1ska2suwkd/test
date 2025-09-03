@@ -50,6 +50,10 @@ export class EnemyController {
 
         // 짧게 반짝였다가 해제
         this.scene.time.delayedCall(120, () => {
+            const hitSound = this.scene.sounds.enemy?.hit;
+            hitSound.play();
+            hitSound.setRate(Phaser.Math.FloatBetween(0.6, 1));
+
             this.enemy.clearTint();
             this._isFlashing = false;
         });
