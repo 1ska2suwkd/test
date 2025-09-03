@@ -1,7 +1,6 @@
-// js/systems/PlayerStats.js
 export class Stats {
     constructor(scene) {
-        this.scene = scene; // time.now 사용
+        this.scene = scene; 
         // 기본값(절대값)
         this.base = {
             moveSpeed: 300,     // px/s

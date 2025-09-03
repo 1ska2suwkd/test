@@ -3,7 +3,7 @@ import { Stats } from "../common/Stats.js";
 import { createAnimations } from "./PlayerAnimations.js";
 import { startAttack, resetNextAttacks } from "./PlayerAttack.js";
 import { setupPlayerInput } from "./PlayerInput.js";
-import { createPlayerSounds } from "./PlayerSounds.js";
+import { createPlayerSounds } from "../common/Sounds.js";
 
 export class PlayerController {
     constructor(scene, x, y) {
@@ -79,8 +79,10 @@ export class PlayerController {
         if (right) vx = speed;
         if (up) vy = -speed;
         if (down) vy = speed;
+        // 대각선 이동 보정
         if (vx && vy) { const d = Math.SQRT1_2; vx *= d; vy *= d; }
 
+        // 계산된 속도 적용
         p.setVelocity(vx, vy);
 
         // 애니메이션 & 사운드
@@ -100,11 +102,9 @@ export class PlayerController {
 
                 this.stepAccumDist += frameDist;
 
-                // stride(예: 40px)마다 발소리 1번
                 while (this.stepAccumDist >= this.stepStridePx) {
                     this.stepAccumDist -= this.stepStridePx;
 
-                    // 짧은 샘플이면 겹쳐 재생 가능, 길면 isPlaying 확인
                     if (this.scene.sounds.walk) {
                         this.scene.sounds.walk.setRate(Phaser.Math.FloatBetween(0.6, 0.7));
                         this.scene.sounds.walk.play();
@@ -124,7 +124,7 @@ export class PlayerController {
         }
     }
 
-
+    // 현재 마우스 커서의 월드 좌표
     getPointerWorld() {
         const ptr = this.scene.input.activePointer;
         return { x: (ptr.worldX ?? ptr.x), y: (ptr.worldY ?? ptr.y) };

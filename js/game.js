@@ -15,7 +15,7 @@ const config = { //config는 인스턴스 초기화 역할
     physics: { //물리엔진
         default: 'arcade', //아케이드 물리엔진, 2d의 적합
         arcade: {
-            debug: true
+            debug: false
         }
 
     },
