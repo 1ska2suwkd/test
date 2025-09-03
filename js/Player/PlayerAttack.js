@@ -31,7 +31,7 @@ export function startAttack(ctrl, key, dir) {
     const attackSpeed = (ctrl.stats?.getValue?.('attackSpeed')) ?? 1.0;
     p.anims.timeScale = attackSpeed;
     p.play(key, true);
-    const attackSound = ctrl.scene.sounds?.attack;
+    const attackSound = ctrl.scene.sounds?.player?.attack;
     if (attackSound) {
         ctrl.scene.time.delayedCall(200, () => {
             attackSound.setRate(attackSpeed);  // 공격속도에 맞춰 사운드 재생 속도 변경

@@ -1,3 +1,4 @@
+import { createSounds } from "../common/Sounds.js";
 import { PlayerController } from "../Player/PlayerController.js";
 import { CustomCursor } from "../systems/CustomCursor.js";
 import { EnemyController } from "../Enemy/EnemyController.js";
@@ -13,6 +14,8 @@ export default class StartScene extends Phaser.Scene {
         this.cursor = new CustomCursor(this, 'customCursor');
 
         this.depth = new DepthManager(this, false);
+
+        createSounds(this);
 
         // 플레이어
         this.playerController = new PlayerController(this, 333, 433);

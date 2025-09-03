@@ -3,7 +3,6 @@ import { Stats } from "../common/Stats.js";
 import { createAnimations } from "./PlayerAnimations.js";
 import { startAttack, resetNextAttacks } from "./PlayerAttack.js";
 import { setupPlayerInput } from "./PlayerInput.js";
-import { createPlayerSounds } from "../common/Sounds.js";
 
 export class PlayerController {
     constructor(scene, x, y) {
@@ -55,7 +54,6 @@ export class PlayerController {
         this.attackHitbox.body.setEnable(false);
         this.attackHitbox.setVisible(false);
 
-        createPlayerSounds(scene);
         this.stepStridePx = 90;   // 발자국 1번마다 필요한 이동 거리(px) — 취향대로 30~60 조절
         this.stepAccumDist = 0;   // 누적 이동 거리
 
@@ -105,9 +103,10 @@ export class PlayerController {
                 while (this.stepAccumDist >= this.stepStridePx) {
                     this.stepAccumDist -= this.stepStridePx;
 
-                    if (this.scene.sounds.walk) {
-                        this.scene.sounds.walk.setRate(Phaser.Math.FloatBetween(0.6, 0.7));
-                        this.scene.sounds.walk.play();
+                    const walkSound = this.scene.sounds.player?.walk;
+                    if (walkSound) {
+                        walkSound.setRate(Phaser.Math.FloatBetween(0.6, 0.7));
+                        walkSound.play();
                     }
 
                 }
