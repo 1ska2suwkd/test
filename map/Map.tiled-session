@@ -1,0 +1,74 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "map.json",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "Bridge_All.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "GoldMine_Active.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tilemap_Elevation.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tilemap_Flat.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "Tree.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Water.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "map.json": {
+            "scale": 0.75,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 336.6666666666667,
+                "y": 195.99999999999994
+            }
+        },
+        "warning.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Users/CKIRUser/Documents/새 폴더/map",
+    "map.height": 25,
+    "map.lastUsedFormat": "json",
+    "map.width": 35,
+    "openFiles": [
+        "map.json",
+        "Tilemap_Flat.tsx",
+        "Tree.tsx",
+        "Water.tsx",
+        "Tilemap_Elevation.tsx",
+        "warning.tsx",
+        "Bridge_All.tsx",
+        "GoldMine_Active.tsx"
+    ],
+    "project": "Map.tiled-project",
+    "recentFiles": [
+        "GoldMine_Active.tsx",
+        "Bridge_All.tsx",
+        "warning.tsx",
+        "Tilemap_Elevation.tsx",
+        "Water.tsx",
+        "Tree.tsx",
+        "Tilemap_Flat.tsx",
+        "map.json"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
