@@ -10,6 +10,24 @@ export default class StartScene extends Phaser.Scene {
     }
 
     create() {
+        // Tilemap 생성
+        const map = this.make.tilemap({ key: 'map' });
+        const tilesets = [
+            map.addTilesetImage('Tilemap_Flat', 'Tilemap_Flat'),
+            map.addTilesetImage('Tree', 'Tree'),
+            map.addTilesetImage('Water', 'Water'),
+            map.addTilesetImage('Tilemap_Elevation', 'Tilemap_Elevation'),
+            map.addTilesetImage('GoldMine_Active', 'GoldMine_Active'),
+            map.addTilesetImage('warning', 'warning'),
+            map.addTilesetImage('Bridge_All', 'Bridge_All')
+        ];
+
+        map.createLayer('Water', tilesets, 0, 0);
+        map.createLayer('Ground', tilesets, 0, 0);
+        map.createLayer('Bridge', tilesets, 0, 0);
+        map.createLayer('DungeonEntrance', tilesets, 0, 0);
+        map.createLayer('Deco', tilesets, 0, 0);
+
         // 커서
         this.cursor = new CustomCursor(this, 'customCursor');
 
