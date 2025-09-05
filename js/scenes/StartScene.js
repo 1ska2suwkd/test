@@ -10,23 +10,23 @@ export default class StartScene extends Phaser.Scene {
     }
 
     create() {
-        // Tilemap 생성
-        const map = this.make.tilemap({ key: 'map' });
-        const tilesets = [
-            map.addTilesetImage('Tilemap_Flat', 'Tilemap_Flat'),
-            map.addTilesetImage('Tree', 'Tree'),
-            map.addTilesetImage('Water', 'Water'),
-            map.addTilesetImage('Tilemap_Elevation', 'Tilemap_Elevation'),
-            map.addTilesetImage('GoldMine_Active', 'GoldMine_Active'),
-            map.addTilesetImage('warning', 'warning'),
-            map.addTilesetImage('Bridge_All', 'Bridge_All')
-        ];
 
-        map.createLayer('Water', tilesets, 0, 0);
-        map.createLayer('Ground', tilesets, 0, 0);
-        map.createLayer('Bridge', tilesets, 0, 0);
-        map.createLayer('DungeonEntrance', tilesets, 0, 0);
-        map.createLayer('Deco', tilesets, 0, 0);
+        const map = this.make.tilemap({ key: 'map' });
+
+        // JSON 안에 image가 이미 있으니까 preload 키 필요 없음
+        const tilesetFlat = map.addTilesetImage('Tilemap_Flat');
+        const tilesetTree = map.addTilesetImage('Tree');
+        const tilesetWater = map.addTilesetImage('Water');
+        const tilesetElev = map.addTilesetImage('Tilemap_Elevation');
+        const tilesetWarn = map.addTilesetImage('warning');
+        const tilesetBridge = map.addTilesetImage('Bridge_All');
+        const tilesetGold = map.addTilesetImage('GoldMine_Active');
+
+        // 레이어 만들기
+        map.createLayer('Ground', [tilesetFlat, tilesetTree, tilesetWater, tilesetElev, tilesetWarn, tilesetBridge, tilesetGold], 0, 0);
+        map.createLayer('Water', [tilesetWater], 0, 0);
+        map.createLayer('Bridge', [tilesetBridge], 0, 0);
+        map.createLayer('Deco', [tilesetGold, tilesetTree], 0, 0);
 
         // 커서
         this.cursor = new CustomCursor(this, 'customCursor');

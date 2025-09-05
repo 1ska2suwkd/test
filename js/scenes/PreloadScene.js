@@ -17,13 +17,6 @@ export default class PreloadScene extends Phaser.Scene {
 
         // StartScene Tilemap generated
         this.load.tilemapTiledJSON('map', 'map/map.json');
-        this.load.image('Tilemap_Flat', 'map/Tilemap_Flat.png');
-        this.load.image('Tree', 'map/Tree.png');
-        this.load.image('Water', 'map/Water.png');
-        this.load.image('Tilemap_Elevation', 'map/Tilemap_Elevation.png');
-        this.load.image('GoldMine_Active', 'map/GoldMine_Active.png');
-        this.load.image('warning', 'map/warning.png');
-        this.load.image('Bridge_All', 'map/Bridge_All.png');
     }
 
     create() {
