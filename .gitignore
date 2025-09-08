@@ -1,0 +1,26 @@
+# Godot-specific (generated/imported files)
+.import/
+.export/
+.godot/
+
+# Exported builds (binaries, installers, etc.)
+/export/
+/bin/
+/build/
+/dist/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Editor/IDE configs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Godot crash logs
+godot.crash.log
+godot_error.log
